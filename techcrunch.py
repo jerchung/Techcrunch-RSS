@@ -38,4 +38,4 @@ def new_comment(article_id):
     return flask.jsonify(content=article.content, comments=[c.serialize for c in article.comments.all()])
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run()
