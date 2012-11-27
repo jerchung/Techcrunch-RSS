@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Feed - TechCrunch</title>
+        <link rel="stylesheet" href="{{ url_for('static', filename='reset.css') }}" />
+        <link rel="stylesheet" href="{{ url_for('static', filename='lacuna-font/stylesheet.css') }}" />
+        <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
+        <script type="text/javascript" src="https://www.google.com/jsapi"></script>
+        <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+        <script type="text/javascript" src="{{ url_for('static', filename='mustache.js') }}"></script>
+        <script type="text/javascript" src="{{ url_for('static', filename='date.format.js') }}"></script>
+        <script type="text/javascript" src="{{ url_for('static', filename='feed.js') }}"></script>
+    </head>
+    <body>
+        {% raw %}
+        <div id="header" class="bottom_shadow"><h1>TechCrunch RSS</h1></div>
+        <div id="main-content">
+            <div id="feed-content"></div>
+        </div>
+        <div id="footer"></div>
+        
+        <script type="text/html" id="feed-template">
+            <div class="feed_element rounded" data-article_id ="{{article_id}}">
+                <div class="feed_image float_left" style="background-image:url({{image}}?h=150&amp;w=100&amp;crop=1)"></div>
+                <div class="feed_info_container inset_shadow">
+                    <div class="feed_info">
+                        <h2>{{title}}</h2>
+                        <span>{{publishedDate}}</span>
+                        <span>{{author}}</span>
+                    </div>
+                </div>
+            </div>
+        </script>
+        
+        <script type="text/html" id="article-template">
+            <div class="single_article {{#id}}article_delete{{/id}}">
+                <div class="article_header"><div class="article_title">{{title}}</div></div>
+                <div class="article_content">
+                    <div class="article_text float_left" id="article-text">{{{content}}}</div>
+                    <div class="article_comments">
+                        <div class="new_comment">
+                            <form id="new-comment">
+                                <div class="input_section">
+                                    <span>Name:</span>
+                                    <input type="text" name="name" id="name">
+                                </div>
+                                <div class="input_section">
+                                    <span>Text:</span>
+                                    <textarea name="content" id="comment-content"></textarea>
+                                </div>
+                                <input type="hidden" id="article-id" value="{{id}}">
+                                <input type="button" value="Comment" id="new-cmnt-btn">
+                            </form>
+                        </div>
+                        <div class="comments_container">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </script>
+        <script type="text/html" id="comments-template">
+            <div>
+                {{#comments}}
+                <div class="single_comment" data-location="{{location}}">
+                    <div class="comment_name">
+                        <span>Name</span>
+                        {{name}}
+                    </div>
+                    <div class="comment_content">
+                        <span>Text</span>
+                        {{text}}
+                    </div>
+                </div>
+                {{/comments}}
+            </div>
+        </script>
+        
+        <script type="text/javascript">
+            google.load("feeds", "1");
+            google.setOnLoadCallback(initialize);
+        </script>
+        {% endraw %}
+        
+    </body>
+</html>
